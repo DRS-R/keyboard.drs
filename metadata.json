@@ -1,0 +1,6 @@
+{
+  "name": "OmniBoard",
+  "description": "لوحة مفاتيح متقدمة وعصرية للمبرمجين والمستخدمين، بدون ذكاء اصطناعي، بمحرك خوارزمي للتصحيح التلقائي، إيماءات زوايا، مقتطفات برمجية، وحافظة ذكية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
