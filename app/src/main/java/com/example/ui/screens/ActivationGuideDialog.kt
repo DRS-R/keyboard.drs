@@ -22,6 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object ImeHelper {
+    fun isImeInstalled(context: Context): Boolean {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager ?: return false
+        val list = imm.inputMethodList
+        val pkg = context.packageName
+        return list.any { it.packageName == pkg }
+    }
+
     fun isImeEnabled(context: Context): Boolean {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager ?: return false
         val list = imm.enabledInputMethodList
@@ -31,7 +38,7 @@ object ImeHelper {
 
     fun isImeSelected(context: Context): Boolean {
         val defaultIme = Settings.Secure.getString(context.contentResolver, Settings.Secure.DEFAULT_INPUT_METHOD)
-        return defaultIme != null && defaultIme.contains(context.packageName)
+        return defaultIme != null && (defaultIme.contains(context.packageName) || defaultIme.contains("OmniKeyboardService"))
     }
 
     fun openImeSettings(context: Context) {
@@ -44,6 +51,11 @@ object ImeHelper {
     fun showImePicker(context: Context) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.showInputMethodPicker()
+    }
+
+    fun forceShowSoftKeyboard(context: Context) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 }
 

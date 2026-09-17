@@ -411,6 +411,8 @@ class KeyboardController(
         _uiState.update { it.copy(autoClosePairs = !it.autoClosePairs) }
     }
 
+    fun toggleAutoClose() = toggleAutoClosePairs()
+
     fun setKeyHeight(heightDp: Int) {
         _uiState.update { it.copy(keyHeightDp = heightDp.coerceIn(40, 68)) }
     }
@@ -433,6 +435,9 @@ class KeyboardController(
         }
     }
 
+    fun addSnippet(trigger: String, title: String, content: String, category: String) =
+        addCustomSnippet(trigger, title, content, category)
+
     fun addClipboard(content: String) {
         coroutineScope.launch(Dispatchers.IO) {
             dao.insertClipboard(
@@ -442,6 +447,24 @@ class KeyboardController(
                     isCode = content.contains("{") || content.contains("fun ") || content.contains("def ")
                 )
             )
+        }
+    }
+
+    fun deleteSnippet(snippet: SnippetEntity) {
+        coroutineScope.launch(Dispatchers.IO) {
+            dao.deleteSnippet(snippet)
+        }
+    }
+
+    fun deleteClipboard(item: ClipboardEntity) {
+        coroutineScope.launch(Dispatchers.IO) {
+            dao.deleteClipboard(item)
+        }
+    }
+
+    fun togglePinClipboard(id: Long) {
+        coroutineScope.launch(Dispatchers.IO) {
+            dao.togglePinClipboard(id)
         }
     }
 

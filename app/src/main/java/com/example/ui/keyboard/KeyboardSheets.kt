@@ -51,12 +51,21 @@ fun ClipboardSheet(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "📋 الحافظة الذكية (Clipboard)",
-                color = palette.accent,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.ContentPaste,
+                    contentDescription = null,
+                    tint = palette.accent,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "سجل الحافظة الذكي",
+                    color = palette.accent,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             Row {
                 TextButton(onClick = onClearAll) {
                     Text("مسح الكل", color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
@@ -112,11 +121,20 @@ fun ClipboardSheet(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(
-                                    text = if (item.isCode) "💻 كود برمجـي" else "📝 نص",
-                                    color = palette.secondaryText,
-                                    fontSize = 10.sp
-                                )
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = if (item.isCode) Icons.Default.Code else Icons.Default.Description,
+                                        contentDescription = null,
+                                        tint = palette.accent,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text(
+                                        text = if (item.isCode) "كود برمجي" else "نص محفوظ",
+                                        color = palette.secondaryText,
+                                        fontSize = 11.sp
+                                    )
+                                }
                                 if (item.isPinned) {
                                     Icon(Icons.Default.PushPin, contentDescription = "Pinned", tint = palette.accent, modifier = Modifier.size(12.dp))
                                 }
@@ -167,12 +185,21 @@ fun SnippetsSheet(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "⚡ المقتطفات والماكرو (Snippets)",
-                color = palette.accent,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Code,
+                    contentDescription = null,
+                    tint = palette.accent,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "المقتطفات البرمجية والماكرو",
+                    color = palette.accent,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             Row {
                 IconButton(onClick = { showAddDialog = true }) {
                     Icon(Icons.Default.Add, contentDescription = "Add Snippet", tint = palette.accent)
@@ -317,12 +344,21 @@ fun CaseConvertSheet(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "🔤 محول التسميات البرمجية (Case Styles)",
-                color = palette.accent,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Transform,
+                    contentDescription = null,
+                    tint = palette.accent,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "محول التسميات البرمجية",
+                    color = palette.accent,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             IconButton(onClick = onClose) {
                 Icon(Icons.Default.Close, contentDescription = "Close", tint = palette.primaryText)
             }
@@ -392,12 +428,21 @@ fun SettingsSheet(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "⚙️ إعدادات وتخصيص OmniBoard",
-                color = palette.accent,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Tune,
+                    contentDescription = null,
+                    tint = palette.accent,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "إعدادات وتخصيص OmniBoard",
+                    color = palette.accent,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             IconButton(onClick = onClose) {
                 Icon(Icons.Default.Close, contentDescription = "Close", tint = palette.primaryText)
             }
@@ -405,7 +450,16 @@ fun SettingsSheet(
 
         Spacer(Modifier.height(6.dp))
 
-        Text("🎨 سمة المظهر (Theme):", color = palette.primaryText, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Palette,
+                contentDescription = null,
+                tint = palette.accent,
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(Modifier.width(6.dp))
+            Text("سمة المظهر:", color = palette.primaryText, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+        }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier.padding(vertical = 6.dp)

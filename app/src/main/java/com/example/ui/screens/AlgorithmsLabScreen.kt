@@ -10,11 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.DataObject
-import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material.icons.filled.Spellcheck
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -85,12 +81,21 @@ fun AlgorithmsLabScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text(
-                    text = "🔬 مختبر خوارزميات OmniBoard",
-                    color = Color(0xFF00F0FF),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = Color(0xFF00F0FF),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = "مختبر خوارزميات OmniBoard",
+                        color = Color(0xFF00F0FF),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 Text(
                     text = "Room Database + Trie Engine • Zero AI • Pure Algorithmic Core",
                     color = Color(0xFF94A3B8),
@@ -334,9 +339,19 @@ fun AlgorithmsLabScreen(
                             FilterChip(
                                 selected = sug.isAutocorrect,
                                 onClick = {},
+                                leadingIcon = if (sug.isAutocorrect) {
+                                    {
+                                        Icon(
+                                            Icons.Default.Spellcheck,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(14.dp),
+                                            tint = Color(0xFF34D399)
+                                        )
+                                    }
+                                } else null,
                                 label = {
                                     Text(
-                                        text = if (sug.isAutocorrect) "✏️ ${sug.word}" else sug.word,
+                                        text = sug.word,
                                         fontSize = 12.sp
                                     )
                                 }

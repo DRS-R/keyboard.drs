@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -96,7 +98,7 @@ fun SmartbarView(
                     modifier = Modifier.size(30.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Cursor Left",
                         tint = palette.secondaryText,
                         modifier = Modifier.size(18.dp)
@@ -108,7 +110,7 @@ fun SmartbarView(
                     modifier = Modifier.size(30.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "Cursor Right",
                         tint = palette.secondaryText,
                         modifier = Modifier.size(18.dp)

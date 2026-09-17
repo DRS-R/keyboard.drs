@@ -6,9 +6,12 @@ import android.os.Build
 import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -195,17 +198,35 @@ class OmniKeyboardService : InputMethodService(), LifecycleOwner, ViewModelStore
         super.onInitializeInterface()
     }
 
+    override fun onEvaluateInputViewShown(): Boolean {
+        super.onEvaluateInputViewShown()
+        return true
+    }
+
+    override fun onEvaluateFullscreenMode(): Boolean {
+        return false
+    }
+
     override fun onCreateInputView(): View {
         return ComposeView(this).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnLifecycleDestroyed(this@OmniKeyboardService.lifecycle)
+            )
             setViewTreeLifecycleOwner(this@OmniKeyboardService)
             setViewTreeViewModelStoreOwner(this@OmniKeyboardService)
             setViewTreeSavedStateRegistryOwner(this@OmniKeyboardService)
 
             setContent {
-                OmniKeyboardView(
-                    controller = controller,
-                    inputTarget = inputTarget
-                )
+                MaterialTheme {
+                    OmniKeyboardView(
+                        controller = controller,
+                        inputTarget = inputTarget
+                    )
+                }
             }
         }
     }
@@ -217,15 +238,18 @@ class OmniKeyboardService : InputMethodService(), LifecycleOwner, ViewModelStore
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        if (!lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        }
         controller.onInputViewStarted(inputTarget, info)
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
         super.onFinishInputView(finishingInput)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        if (lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        }
         controller.closeAllSheets()
         controller.resetTransientModifiers()
     }
